@@ -11,7 +11,7 @@
 		SidebarTrigger,
 	} from "$lib/components/ui/sidebar";
 	import { ModeWatcher } from "mode-watcher";
-	import ThemeSwitcher from "$lib/components/theme-switcher.svelte";
+	import ThemeSwitcher from "$lib/components/large/theme-switcher.svelte";
 
 	let { children } = $props();
 </script>
