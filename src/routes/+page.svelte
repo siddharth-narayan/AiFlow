@@ -2,11 +2,6 @@
     import AiMediaInput from "$lib/components/large/ai-media-input.svelte";
     import AiMediaOutput from "$lib/components/large/ai-media-output.svelte";
     import SingleSelect from "$lib/components/large/single-select.svelte";
-    import MediaTypeSelector from "$lib/components/large/single-select.svelte";
-    import { Select } from "$lib/components/ui/select";
-    import SelectContent from "$lib/components/ui/select/select-content.svelte";
-    import SelectItem from "$lib/components/ui/select/select-item.svelte";
-    import SelectTrigger from "$lib/components/ui/select/select-trigger.svelte";
 
     import { Separator } from "$lib/components/ui/separator/index.js";
     
@@ -21,12 +16,7 @@
 
 <div>
     <div class="flex justify-center">
-        <Select type="single">
-            <SelectTrigger/>
-            <SelectContent>
-                <SelectItem value=""></SelectItem>
-            </SelectContent>
-        </Select>
+        <p>models</p>
     </div>
 </div>
 <div class="flex gap-4 p-4 h-full">

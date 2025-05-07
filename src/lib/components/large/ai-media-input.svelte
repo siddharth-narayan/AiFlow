@@ -1,6 +1,4 @@
 <script>
-    import { Card } from "../ui/card";
-    import CardContent from "../ui/card/card-content.svelte";
     import { Textarea } from "../ui/textarea";
 
     let { type } = $props();
