@@ -1,35 +1,37 @@
 <script lang="ts">
-    import { Button } from "$lib/components/ui/button";
-    import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, SidebarProvider, SidebarTrigger } from "$lib/components/ui/sidebar";
-    import Moon from "@lucide/svelte/icons/moon";
-    import Sun from "@lucide/svelte/icons/sun";
-    import { toggleMode } from "mode-watcher";
+    import AiMediaView from "$lib/components/ai-media-input.svelte";
+    import MediaTypeSelector from "$lib/components/media-type-selector.svelte";
+    import { Select } from "$lib/components/ui/select";
+    import SelectContent from "$lib/components/ui/select/select-content.svelte";
+    import SelectItem from "$lib/components/ui/select/select-item.svelte";
 
-    let { children } = $props();
+    import { Separator } from "$lib/components/ui/separator/index.js";
+    
+    let media_type_1 = $state("text")
+    let media_type_2 = $state("text")
+
+    function getAvailableModels(type: string, type1: string) {
+        
+    }
 </script>
-<div class="flex felx-row p-4">
-<SidebarProvider>
-    <Sidebar>
-        <SidebarHeader></SidebarHeader>
-        <SidebarContent>
-            <SidebarGroup></SidebarGroup>
-        </SidebarContent>
-        <SidebarFooter></SidebarFooter>
-    </Sidebar>
-    <main>
-        <SidebarTrigger />
-        {@render children?.()}
-    </main>
-</SidebarProvider>
+
 <div>
-<Button onclick={toggleMode} variant="outline" size="icon">
-	<Sun
-	  class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
-	/>
-	<Moon
-	  class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
-	/>
-	<span class="sr-only">Toggle theme</span>
-</Button>
+    <div class="flex justify-center">
+        <Select>
+            <SelectContent>
+                <SelectItem value=""></SelectItem>
+            </SelectContent>
+        </Select>
+    </div>
 </div>
+<div class="flex gap-4 p-4 h-full">
+    <div class="w-1/2 flex flex-col gap-4 items-center">
+        <MediaTypeSelector bind:value={media_type_1}></MediaTypeSelector>
+        <AiMediaView type={media_type_1} interactive={true}/>
+    </div>
+    <Separator orientation="vertical" />
+    <div class="w-1/2 flex flex-col gap-4 items-center">
+        <MediaTypeSelector bind:value={media_type_2}></MediaTypeSelector>
+        <AiMediaView type={media_type_1} interactive={false}/>
+    </div>
 </div>

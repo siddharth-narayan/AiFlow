@@ -1,15 +1,38 @@
-	
 <script lang="ts">
 	import "../app.css";
 
-    import { Button } from "$lib/components/ui/button";
-	import Sun from "@lucide/svelte/icons/sun";
-	import Moon from "@lucide/svelte/icons/moon";
-
+	import {
+		Sidebar,
+		SidebarContent,
+		SidebarFooter,
+		SidebarGroup,
+		SidebarHeader,
+		SidebarProvider,
+		SidebarTrigger,
+	} from "$lib/components/ui/sidebar";
 	import { ModeWatcher } from "mode-watcher";
+	import ThemeSwitcher from "$lib/components/theme-switcher.svelte";
+
 	let { children } = $props();
-  </script>
-   
-  <ModeWatcher />
-  {@render children()}
-  
+</script>
+
+<ModeWatcher />
+
+<div class="flex gap-4">
+	<SidebarProvider style="--sidebar-width: 20rem;">
+		<Sidebar>
+			<SidebarHeader></SidebarHeader>
+			<SidebarContent>
+				<SidebarGroup></SidebarGroup>
+			</SidebarContent>
+			<SidebarFooter>
+				<ThemeSwitcher />
+			</SidebarFooter>
+		</Sidebar>
+		<SidebarTrigger />
+	</SidebarProvider>
+
+	<div class="w-full">
+		{@render children()}
+	</div>
+</div>
