@@ -7,13 +7,15 @@
     let { options, value = $bindable() } = $props();
 </script>
 
-<Select type="single" bind:value={value}>
-    <SelectTrigger placeholder="Heloeawf">
-        {value}
-    </SelectTrigger>
-    <SelectContent placeholder="Value">
-        {#each options as option}
-            <SelectItem value={option}></SelectItem>
-        {/each}
-    </SelectContent>
-</Select>
+<div class="w-32">
+    <Select type="single" bind:value={value}>
+        <SelectTrigger placeholder="Heloeawf">
+            {value}
+        </SelectTrigger>
+        <SelectContent placeholder="Value">
+            {#each options as option}
+                <SelectItem value={option}></SelectItem>
+            {/each}
+        </SelectContent>
+    </Select>
+</div>
