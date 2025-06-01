@@ -51,7 +51,7 @@ class TritonPythonModel:
         return chunks
 
     def count_tokens(self, text):
-        return len(self.tokenizer(sentence).input_ids)
+        return len(self.tokenizer(text).input_ids)
 
     def execute(self, requests):
         responses = []
