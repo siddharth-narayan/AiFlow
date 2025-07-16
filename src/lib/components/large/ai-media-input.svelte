@@ -34,5 +34,4 @@
 
 {#if type == "text"}
     <Textarea placeholder="Enter your message" bind:value></Textarea>
-    <Button {onclick}>Submitshs</Button>
 {:else if type == "audio"}{:else if type == "video"}{:else if type == "3D"}{/if}
