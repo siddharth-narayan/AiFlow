@@ -7,12 +7,12 @@ import math
 
 nlp = spacy.load("xx_sent_ud_sm")
 
-max_context_len = 512
 
 class TritonPythonModel:
+    max_context_len = 512
     def initialize(self, args):
-        self.tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-base")
-        self.model = AutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-base")
+        self.tokenizer = AutoTokenizer.from_pretrained("facebook/nllb-200-3.3B")
+        self.model = AutoModelForSeq2SeqLM.from_pretrained("facebook/nllb-200-3.3B")
         self.model.to("cuda")
         self.model.eval()
 
@@ -38,10 +38,10 @@ class TritonPythonModel:
         max_chunk = ""
 
         for sentence in sentences:
-            if self.count_tokens(sentence) > self.max_input_tokens:
-                chunks.extend(harsh_chunk(sentence))
+            if self.count_tokens(sentence) > self.max_context_len:
+                chunks.extend(self.harsh_chunk(sentence))
 
-            elif self.count_tokens(max_chunk + sentence) > self.max_input_tokens:
+            elif self.count_tokens(max_chunk + sentence) > self.max_context_len:
                 chunks.append(max_chunk)
             else:
                 max_chunk += sentence

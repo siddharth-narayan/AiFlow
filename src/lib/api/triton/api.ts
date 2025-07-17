@@ -51,14 +51,16 @@ export class TritonApiInstance {
         return schemaFetch([`${this.url}/v2/models/${model_name}/config`], modelInfoResponse)
     }
 
-    async infer(model_name: string, inputs: any) {
+    async infer(model_name: string, inputs: any, outputs: any) {
         console.log(inputs)
-        return fetch(`${this.url}/${model_name}/infer`, {
+        console.log(outputs)
+        console.log(model_name)
+        return fetch(`${this.url}/v2/models/${model_name}/infer`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 inputs: inputs,
-                outputs: [{ name: "encoder_hidden_states" }],
+                outputs: outputs,
             }),
         });
     }
