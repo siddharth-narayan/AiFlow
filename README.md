@@ -1,38 +1,8 @@
-# sv
+# AiFlow
+> This project is still a work in progress
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A minimal project for running local or hosted AI tools, meant to target multiple different types of AI, such as text-text LLMs like ChatGPT and DeepSeek, as well as speech to text and text to speach. Meant to be modularized, built on top of Nvidia's Triton AI Inference Server.
 
-## Creating a project
+The user can select the different types of media they wish for the model to use, and if such a model is available at the triton endpoint, it can be used
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+<img width="1913" height="1258" alt="image" src="https://github.com/user-attachments/assets/74823bbb-b679-4762-90b4-8dd311e75817" />
