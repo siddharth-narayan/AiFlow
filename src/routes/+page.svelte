@@ -1,5 +1,6 @@
 <script lang="ts">
   import { triton } from "$lib/api/triton/api";
+  import Loader2Icon from "@lucide/svelte/icons/loader-2";
   import AiMediaInput from "$lib/components/large/ai-media-input.svelte";
   import AiMediaOutput from "$lib/components/large/ai-media-output.svelte";
   import SingleSelect from "$lib/components/large/single-select.svelte";
@@ -27,6 +28,8 @@
   let outputValue = $state("");
   let inputValue = $state("");
 
+  let loading = $state(false)
+
   async function submit() {
     let inputs = [
       {
@@ -38,12 +41,12 @@
     ];
 
     let outputs = [{ name: "text_output" }];
-
+    
+    loading = true;
     let resp = await triton.infer(selectedModel, inputs, outputs);
-    resp.json().then((j) => {
-      console.log(j)
-      console.log(j["outputs"][0]["data"][0])
-      outputValue = j["outputs"][0]["data"][0]
+    resp.json().then((json) => {
+      loading = false
+      outputValue = json["outputs"][0]["data"][0]
     })
   }
 </script>
@@ -63,7 +66,12 @@
     <SingleSelect bind:value={media_type_1} options={mediaTypes.keys()}
     ></SingleSelect>
     <AiMediaInput type={media_type_1} bind:value={inputValue} />
-    <Button onclick={submit}>Submit</Button>
+    <Button disabled={loading} onclick={submit}>
+      {#if loading}
+        <Loader2Icon class="animate-spin" />
+      {/if}
+      Submit
+    </Button>
   </div>
   <Separator orientation="vertical" />
   <div class="w-1/2 flex flex-col gap-4 items-center">
