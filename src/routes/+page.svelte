@@ -5,11 +5,6 @@
   import AiMediaOutput from "$lib/components/large/ai-media-output.svelte";
   import SingleSelect from "$lib/components/large/single-select.svelte";
   import { Button } from "$lib/components/ui/button";
-  import {
-    AutoTokenizer,
-    InterruptableStoppingCriteria,
-    TextStreamer,
-  } from "@huggingface/transformers";
   import { Separator } from "$lib/components/ui/separator/index.js";
 
   // TODO: Move TritonApiInstance to shared between components
@@ -19,14 +14,10 @@
 
   let selectedModel = $state("");
 
-  let mediaTypes = new Map();
-  mediaTypes.set("audio", "BYTES");
-  mediaTypes.set("video", "BYTES");
-  mediaTypes.set("text", "TYPE_STRING");
-  mediaTypes.set("3D", "BYTES");
+  let mediaTypes = ["text", "audio", "video", "3D"]
 
-  let outputValue = $state("");
   let inputValue = $state("");
+  let outputValue = $state("");
 
   let loading = $state(false)
 
@@ -63,7 +54,7 @@
 <Separator orientation="horizontal" />
 <div class="flex gap-4 p-4 h-full">
   <div class="w-1/2 flex flex-col gap-4 items-center">
-    <SingleSelect bind:value={media_type_1} options={mediaTypes.keys()}
+    <SingleSelect bind:value={media_type_1} options={mediaTypes}
     ></SingleSelect>
     <AiMediaInput type={media_type_1} bind:value={inputValue} />
     <Button disabled={loading} onclick={submit}>
@@ -75,7 +66,7 @@
   </div>
   <Separator orientation="vertical" />
   <div class="w-1/2 flex flex-col gap-4 items-center">
-    <SingleSelect bind:value={media_type_2} options={mediaTypes.keys()}
+    <SingleSelect bind:value={media_type_2} options={mediaTypes}
     ></SingleSelect>
     <AiMediaOutput type={media_type_1} value={outputValue} />
   </div>
