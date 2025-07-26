@@ -1,32 +1,25 @@
 <script lang="ts">
   import "../app.css";
-
   import SettingsIcon from "@lucide/svelte/icons/settings";
   import { ModeWatcher } from "mode-watcher";
   import ThemeSwitcher from "$lib/components/large/theme-switcher.svelte";
-
   import * as Sidebar from "$lib/components/ui/sidebar/index.js";
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
   import ChevronDown from "@lucide/svelte/icons/chevron-down";
   import SearchIcon from "@lucide/svelte/icons/search";
-
   import { Collapsible } from "bits-ui";
-
+  
   let { children } = $props();
-
+  
   let groups = [
     {
       title: "Settings",
       icon: SettingsIcon,
       collapsible: true,
       items: [
-        {
-          title: "piece",
-          link: "#",
-          icon: SearchIcon,
-        },
-      ],
-    },
+        { title: "piece", link: "#", icon: SearchIcon }
+      ]
+    }
   ];
 </script>
 
@@ -84,6 +77,7 @@
       </Sidebar.Content>
       <Sidebar.Footer>
         <ThemeSwitcher />
+        <p class="text-gray-500">Version 1.0</p>
       </Sidebar.Footer>
     </Sidebar.Root>
     <Sidebar.Trigger />
