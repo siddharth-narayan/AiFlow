@@ -1,6 +1,8 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+@custom-variant dark (&:is(.dark *));
 
 @layer base {
   :root {
@@ -65,11 +67,11 @@
   }
 }
 
-@layer base {
+/* @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
   }
-}
+} */

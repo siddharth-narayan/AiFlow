@@ -1,5 +1,5 @@
 <script lang="ts">
-  import "../app.css";
+  import "../out.css";
   import SettingsIcon from "@lucide/svelte/icons/settings";
   import { ModeWatcher } from "mode-watcher";
   import ThemeSwitcher from "$lib/components/large/theme-switcher.svelte";
@@ -17,7 +17,7 @@
       icon: SettingsIcon,
       collapsible: true,
       items: [
-        { title: "piece", link: "#", icon: SearchIcon }
+        { title: "piece", link: "/settings", icon: SearchIcon }
       ]
     }
   ];
