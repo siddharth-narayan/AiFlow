@@ -6,6 +6,7 @@
   import SingleSelect from "$lib/components/large/single-select.svelte";
   import { Button } from "$lib/components/ui/button";
   import { Separator } from "$lib/components/ui/separator/index.js";
+  import { SvelteFlow } from "@xyflow/svelte";
 
   // TODO: Move TritonApiInstance to shared between components
 
@@ -14,12 +15,12 @@
 
   let selectedModel = $state("");
 
-  let mediaTypes = ["text", "audio", "video", "3D"]
+  let mediaTypes = ["text", "audio", "video", "3D"];
 
   let inputValue = $state("");
   let outputValue = $state("");
 
-  let loading = $state(false)
+  let loading = $state(false);
 
   async function submit() {
     let inputs = [
@@ -32,14 +33,21 @@
     ];
 
     let outputs = [{ name: "text_output" }];
-    
+
     loading = true;
     let resp = await triton.infer(selectedModel, inputs, outputs);
     resp.json().then((json) => {
-      loading = false
-      outputValue = json["outputs"][0]["data"][0]
-    })
+      loading = false;
+      outputValue = json["outputs"][0]["data"][0];
+    });
   }
+
+  let nodes = $state.raw([
+    { id: "1", position: { x: 0, y: 0 }, data: { label: "1" } },
+    { id: "2", position: { x: 0, y: 100 }, data: { label: "2" } },
+  ]);
+
+  let edges = $state.raw([{ id: "e1-2", source: "1", target: "2" }]);
 </script>
 
 <div class="flex justify-center items-center gap-4 p-4">
@@ -54,8 +62,7 @@
 <Separator orientation="horizontal" />
 <div class="flex gap-4 p-4 h-full">
   <div class="w-1/2 flex flex-col gap-4 items-center">
-    <SingleSelect bind:value={media_type_1} options={mediaTypes}
-    ></SingleSelect>
+    <SingleSelect bind:value={media_type_1} options={mediaTypes}></SingleSelect>
     <AiMediaInput type={media_type_1} bind:value={inputValue} />
     <Button disabled={loading} onclick={submit}>
       {#if loading}
@@ -66,8 +73,8 @@
   </div>
   <Separator orientation="vertical" />
   <div class="w-1/2 flex flex-col gap-4 items-center">
-    <SingleSelect bind:value={media_type_2} options={mediaTypes}
-    ></SingleSelect>
+    <SingleSelect bind:value={media_type_2} options={mediaTypes}></SingleSelect>
     <AiMediaOutput type={media_type_1} value={outputValue} />
   </div>
 </div>
+<SvelteFlow bind:nodes bind:edges />

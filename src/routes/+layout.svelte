@@ -1,5 +1,5 @@
 <script lang="ts">
-  import "../out.css";
+  import "../app.css";
   import SettingsIcon from "@lucide/svelte/icons/settings";
   import { ModeWatcher } from "mode-watcher";
   import ThemeSwitcher from "$lib/components/large/theme-switcher.svelte";
