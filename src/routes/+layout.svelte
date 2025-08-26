@@ -8,18 +8,19 @@
   import ChevronDown from "@lucide/svelte/icons/chevron-down";
   import SearchIcon from "@lucide/svelte/icons/search";
   import { Collapsible } from "bits-ui";
-  
+
   let { children } = $props();
-  
+
   let groups = [
     {
-      title: "Settings",
+      title: "Options",
       icon: SettingsIcon,
       collapsible: true,
       items: [
-        { title: "piece", link: "/settings", icon: SearchIcon }
-      ]
-    }
+        { title: "Settings", link: "/settings", icon: SearchIcon },
+        { title: "Custom", link: "/custom" },
+      ],
+    },
   ];
 </script>
 
@@ -39,8 +40,8 @@
                 >
                   {#snippet child({ props })}
                     <Collapsible.Trigger {...props}>
-                      <group.icon class="mr-2"/>
-                        
+                      <group.icon class="mr-2" />
+
                       {group.title}
                       <ChevronDown
                         class="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180"
@@ -56,7 +57,9 @@
                           <Sidebar.MenuButton>
                             {#snippet child({ props })}
                               <a href={item.link} {...props}>
-                                <item.icon />
+                                {#if item.icon}
+                                  <item.icon />
+                                {/if}
                                 <span>{item.title}</span>
                               </a>
                             {/snippet}

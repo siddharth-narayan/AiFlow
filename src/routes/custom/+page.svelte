@@ -6,9 +6,9 @@
   import SingleSelect from "$lib/components/large/single-select.svelte";
   import { Button } from "$lib/components/ui/button";
   import { Separator } from "$lib/components/ui/separator/index.js";
-  import { SvelteFlow } from "@xyflow/svelte";
-
-  // TODO: Move TritonApiInstance to shared between components
+  import { Controls, MiniMap, SvelteFlow, Background, Position } from "@xyflow/svelte";
+  import "@xyflow/svelte/dist/style.css";
+    import ModelNode from "$lib/components/large/flow/model-node.svelte";
 
   let media_type_1 = $state("text");
   let media_type_2 = $state("text");
@@ -42,10 +42,37 @@
     });
   }
 
-  let nodes = $state.raw([
-    { id: "1", position: { x: 0, y: 0 }, data: { label: "1" } },
-    { id: "2", position: { x: 0, y: 100 }, data: { label: "2" } },
-  ]);
+  let nodes: { id: string, position: { x: number, y: number}, data: any}[] = $state.raw([]);
+  triton.ready.then(() => {
+    triton.models
+
+    nodes = triton.models.map((model, index) => {
+      return {
+        id: index.toString(),
+        type: "modelNode",
+        position: { x: 0, y: index * 50},
+        data: model,
+      }
+    })
+
+    console.log(nodes)
+  })
+  // [
+  //   {
+  //     id: "1",
+  //     position: { x: 0, y: 0 },
+  //     data: { label: "1" },
+  //     sourcePosition: Position.Right,
+  //     targetPosition: Position.Left,
+  //   },
+  //   {
+  //     id: "2",
+  //     position: { x: 0, y: 100 },
+  //     data: { label: "2" },
+  //     sourcePosition: Position.Right,
+  //     targetPosition: Position.Left,
+  //   },
+  // ]
 
   let edges = $state.raw([{ id: "e1-2", source: "1", target: "2" }]);
 </script>
@@ -77,4 +104,9 @@
     <AiMediaOutput type={media_type_1} value={outputValue} />
   </div>
 </div>
-<SvelteFlow bind:nodes bind:edges />
+
+<SvelteFlow nodeTypes={{ modelNode: ModelNode}} bind:nodes bind:edges class="bg-foreground" fitView>
+  <Background class="bg-accent" />
+  <MiniMap />
+  <Controls />
+</SvelteFlow>

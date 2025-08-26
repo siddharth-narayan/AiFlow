@@ -1,12 +1,13 @@
 import type { z } from "zod";
 import { schemaFetch } from "../fetcher";
 import { modelIndexResponse, modelInfoResponse } from "./api-schema";
+import type { ModelType } from "./types";
 
 export class TritonApiInstance {
     url: string;
     ready: Promise<void>
 
-    models!: z.infer<typeof modelInfoResponse>[];
+    models!: ModelType[];
 
     constructor(url: string, options?: any) {
         this.url = url;

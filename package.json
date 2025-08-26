@@ -36,8 +36,9 @@
 		"@tailwindcss/vite": "^4.1.11",
 		"@xyflow/svelte": "^1.2.4",
 		"bits-ui": "^2.8.13",
+		"fast-sort": "^3.4.1",
 		"mode-watcher": "^1.0.6",
 		"zod": "^4.0.0",
-		"zxforms-svelte": "^0.0.4"
+		"zxforms-svelte": "^0.0.14"
 	}
 }
