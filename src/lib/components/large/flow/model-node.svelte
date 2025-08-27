@@ -36,7 +36,7 @@
   }
 </script>
 
-<div class="p-4 border-accent border-2 text-accent">
+<div class="p-4 rounded bg-secondary">
   <p>{model?.name}</p>
   {#each model.input as input, index}
   <Handle class="w-2" id={input.name} type="target" position={Position.Left} style={customHandlePosition(index, model.input.length)}/>

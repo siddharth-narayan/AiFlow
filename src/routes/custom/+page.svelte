@@ -5,10 +5,22 @@
   import AiMediaOutput from "$lib/components/large/ai-media-output.svelte";
   import SingleSelect from "$lib/components/large/single-select.svelte";
   import { Button } from "$lib/components/ui/button";
+  import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
   import { Separator } from "$lib/components/ui/separator/index.js";
-  import { Controls, MiniMap, SvelteFlow, Background, Position } from "@xyflow/svelte";
+
+  import { mode } from "mode-watcher";
+  import {
+    Controls,
+    MiniMap,
+    SvelteFlow,
+    Background,
+    Position,
+    type ColorMode,
+    Panel,
+  } from "@xyflow/svelte";
   import "@xyflow/svelte/dist/style.css";
-    import ModelNode from "$lib/components/large/flow/model-node.svelte";
+  import ModelNode from "$lib/components/large/flow/model-node.svelte";
+  import { Plus } from "@lucide/svelte";
 
   let media_type_1 = $state("text");
   let media_type_2 = $state("text");
@@ -42,21 +54,23 @@
     });
   }
 
-  let nodes: { id: string, position: { x: number, y: number}, data: any}[] = $state.raw([]);
+  // Svelte Flow stuff
+  let nodes: { id: string; position: { x: number; y: number }; data: any }[] =
+    $state.raw([]);
   triton.ready.then(() => {
-    triton.models
+    triton.models;
 
     nodes = triton.models.map((model, index) => {
       return {
         id: index.toString(),
         type: "modelNode",
-        position: { x: 0, y: index * 50},
+        position: { x: 0, y: index * 50 },
         data: model,
-      }
-    })
+      };
+    });
 
-    console.log(nodes)
-  })
+    console.log(nodes);
+  });
   // [
   //   {
   //     id: "1",
@@ -105,8 +119,54 @@
   </div>
 </div>
 
-<SvelteFlow nodeTypes={{ modelNode: ModelNode}} bind:nodes bind:edges class="bg-foreground" fitView>
-  <Background class="bg-accent" />
+<SvelteFlow
+  nodeTypes={{ modelNode: ModelNode }}
+  bind:nodes
+  bind:edges
+  colorMode={mode.current}
+>
+  <Background />
   <MiniMap />
   <Controls />
+  <Panel>
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger>
+        {#snippet child({ props })}
+          <Button {...props} variant="outline"><Plus />Add a Node</Button>
+        {/snippet}
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Content class="w-56" align="start">
+        <DropdownMenu.Sub>
+          <DropdownMenu.SubTrigger><Plus />Add Input</DropdownMenu.SubTrigger>
+          <DropdownMenu.SubContent>
+            {#await triton.ready then _}
+              {#each triton.models as model}
+                <DropdownMenu.Item>{model.name}</DropdownMenu.Item>
+              {/each}
+            {/await}
+          </DropdownMenu.SubContent>
+        </DropdownMenu.Sub>
+        <DropdownMenu.Sub>
+          <DropdownMenu.SubTrigger><Plus />Add Output</DropdownMenu.SubTrigger>
+          <DropdownMenu.SubContent>
+            {#await triton.ready then _}
+              {#each triton.models as model}
+                <DropdownMenu.Item>{model.name}</DropdownMenu.Item>
+              {/each}
+            {/await}
+          </DropdownMenu.SubContent>
+        </DropdownMenu.Sub>
+        <DropdownMenu.Sub>
+          <DropdownMenu.SubTrigger><Plus />Add Model</DropdownMenu.SubTrigger>
+          <DropdownMenu.SubContent>
+            {#await triton.ready then _}
+              {#each triton.models as model}
+                <DropdownMenu.Item>{model.name}</DropdownMenu.Item>
+              {/each}
+            {/await}
+          </DropdownMenu.SubContent>
+        </DropdownMenu.Sub>
+      </DropdownMenu.Content>
+    </DropdownMenu.Root>
+  </Panel>
 </SvelteFlow>
