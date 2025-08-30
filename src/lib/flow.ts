@@ -1,4 +1,10 @@
-// Returns a string percentage to style the correct position on a handle
+import { writable, type Writable } from "svelte/store";
+import type { DataType, ModelInputType, ModelOutputType, ModelType } from "./api/triton/types";
+
+export let inputs: Writable<{name: string, data_type: DataType}[]> = writable([])
+export let outputs: Writable<{name: string, data_type: DataType}[]> = writable([])
+
+// Returns a css string percentage to style the correct position on a handle
 export  function customHandlePosition(index: number, count: number) {
     let even = count % 2 == 0;
     let globalPosition = 50; // The placement of the center of all the handles
