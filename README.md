@@ -1,6 +1,8 @@
 # AiFlow
 > This project is still a work in progress
 
+> OpenAI API someday...?
+
 A minimal project for running local or hosted AI tools, meant to target multiple different types of AI, such as text-text LLMs like ChatGPT and DeepSeek, as well as speech to text and text to speach. Meant to be modularized, built on top of Nvidia's Triton AI Inference Server.
 
 The user can select the different types of media they wish for the model to use, and if such a model is available at the triton endpoint, it can be used
