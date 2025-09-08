@@ -24,6 +24,10 @@ export class TritonApiInstance {
         return schemaFetch([`${this.url}/v2/repository/index`, { method: "POST" }], modelIndexResponse)
     }
 
+    getModelByName(name: string) {
+        return this.models.find((model)=>model.name === name)
+    }
+
     async filterModels(
         inputType: string,
         outputType: string

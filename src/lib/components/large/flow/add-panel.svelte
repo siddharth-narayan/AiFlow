@@ -6,7 +6,7 @@
     import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
     import { Plus } from "@lucide/svelte";
     import type { DataType } from "$lib/api/triton/types";
-    import { inputs, outputs } from "$lib/flow";
+    import { inputs, outputs, addModel } from "$lib/flow";
 
     function addInput(type: DataType) {
         let temp = $inputs
@@ -66,7 +66,7 @@
                 <DropdownMenu.SubContent>
                     {#await triton.ready then _}
                         {#each triton.models as model}
-                            <DropdownMenu.Item>{model.name}</DropdownMenu.Item>
+                            <DropdownMenu.Item onclick={()=>addModel(model)}>{model.name}</DropdownMenu.Item>
                         {/each}
                     {/await}
                 </DropdownMenu.SubContent>
