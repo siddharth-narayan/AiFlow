@@ -38,7 +38,9 @@
         "@xyflow/svelte": "^1.2.4",
         "bits-ui": "^2.8.13",
         "fast-sort": "^3.4.1",
+        "lucide-svelte": "^0.542.0",
         "mode-watcher": "^1.0.6",
+        "paneforge": "^1.0.2",
         "uuid": "^12.0.0",
         "zod": "^4.0.0",
         "zxforms-svelte": "^0.0.14"

@@ -3,7 +3,11 @@
   import { triton } from "$lib/api/triton/api";
   import type { ModelType } from "$lib/api/triton/types";
   import Flow from "$lib/components/large/flow/flow.svelte";
-  import { regsiterAddModelCallback } from "$lib/flow";
+  import { inputs, regsiterAddModelCallback } from "$lib/flow";
+  import { GripVertical } from "lucide-svelte/icons";
+  import { PaneGroup, Pane, PaneResizer } from "paneforge";
+  import AiMediaInput from "$lib/components/large/ai-media-input.svelte";
+  import { GripHorizontal } from "@lucide/svelte";
 
   // Things to improve on the flow
   // Don't allow deletion of input/output nodes
@@ -59,4 +63,38 @@
   let edges = $state([]);
 </script>
 
-<Flow bind:edges bind:nodes />
+<PaneGroup direction="vertical" class="flex flex-col gap-8 p-4">
+  <Pane>
+    <PaneGroup
+      direction="horizontal"
+      class="flex gap-8 p-4"
+      style="height: auto;"
+    >
+      {#each $inputs as input, index}
+        <Pane defaultSize={50}>
+          <label class="text-secondary-foreground flex flex-col gap-2">
+            <h1>{input.name}</h1>
+            <AiMediaInput value="" type={input}></AiMediaInput>
+          </label>
+        </Pane>
+
+        {#if index != $inputs.length - 1}
+          <PaneResizer class="bg-accent w-0.5 content-center center"
+            ><GripVertical></GripVertical></PaneResizer
+          >
+        {/if}
+      {/each}
+      <!-- <Pane defaultSize={50}>
+
+  </Pane>
+	
+	<Pane defaultSize={50}>Pane 2</Pane> -->
+    </PaneGroup>
+  </Pane>
+  <PaneResizer class="flex bg-accent h-0.5 items-center justify-center"
+    ><GripHorizontal></GripHorizontal></PaneResizer
+  >
+  <Pane>
+    <Flow bind:edges bind:nodes />
+  </Pane>
+</PaneGroup>

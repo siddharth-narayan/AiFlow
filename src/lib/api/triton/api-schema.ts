@@ -4,7 +4,7 @@ export let tritonDataTypes = z.enum(["TYPE_BYTES", "TYPE_STRING"]);
 
 export let modelInput = z.object({
     name: z.string(),
-    data_type: z.string(),
+    data_type: tritonDataTypes,
     dims: z.array(z.number()),
     optional: z.boolean(),
 });
