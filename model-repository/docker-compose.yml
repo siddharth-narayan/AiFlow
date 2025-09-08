@@ -1,0 +1,26 @@
+name: triton
+services:
+  triton:
+    container_name: "triton-inferencing"
+    image: "triton"
+    restart: "always"
+
+    ports:
+      - "3000:8000"
+      - "3001:8001"
+      - "3002:8002"
+
+    volumes:
+#      - "/storage/docker-state/triton/models:/models"
+      - "/home/siddharth/AiFlow/model-repository/models:/models"
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: cdi
+              device_ids:
+              - nvidia.com/gpu=all
+              capabilities: [gpu]
+
+    command: tritonserver --model-repository=/models
