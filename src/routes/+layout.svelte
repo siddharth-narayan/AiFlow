@@ -80,7 +80,7 @@
       </Sidebar.Content>
       <Sidebar.Footer>
         <ThemeSwitcher />
-        <p class="text-gray-500">Version 1.0</p>
+        <p class="text-gray-500 font-bold text-sm">Version 0</p>
       </Sidebar.Footer>
     </Sidebar.Root>
     <Sidebar.Trigger />

@@ -1,0 +1,11 @@
+.left-edge-label {
+position: absolute;
+left: 0;
+transform: translateX(calc(-100% - .5rem)) translateY(-50%);
+}
+
+.right-edge-label {
+    position: absolute;
+    right: 0;
+    transform: translateX(calc(100% + .5rem)) translateY(-50%);
+}
