@@ -1,11 +1,19 @@
 import { writable, type Writable } from "svelte/store";
-import type { DataType, ModelInputType, ModelOutputType, ModelType } from "./api/triton/types";
+import type {
+    DataType,
+    ModelInputType,
+    ModelOutputType,
+    ModelType,
+} from "./api/triton/types";
 
-export let inputs: Writable<{name: string, data_type: DataType}[]> = writable([])
-export let outputs: Writable<{name: string, data_type: DataType}[]> = writable([])
+export let inputs: Writable<{ name: string; data_type: DataType }[]> = writable(
+    [],
+);
+export let outputs: Writable<{ name: string; data_type: DataType }[]> =
+    writable([]);
 
 // Returns a css string percentage to style the correct position on a handle
-export  function customHandlePosition(index: number, count: number) {
+export function customHandlePosition(index: number, count: number) {
     let globalPosition = 50; // The placement of the center of all the handles
     let handleHeight = 70; // Total height (percentage) of all the handles
 
@@ -19,33 +27,33 @@ export  function customHandlePosition(index: number, count: number) {
     let position = firstHandlePosition + index * distance;
 
     return `top:${position}%;`;
-  }
+}
 
-  for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 5; i++) {
     for (let j = 0; j < i; j++) {
-      console.log(
-        `index: ${j} count: ${i} position: ${customHandlePosition(j, i)}`,
-      );
+        console.log(
+            `index: ${j} count: ${i} position: ${customHandlePosition(j, i)}`,
+        );
     }
-  }
+}
 
-  let addModelCallback: (model: ModelType) => void
-  export function regsiterAddModelCallback(func: (model: ModelType) => void) {
-    addModelCallback = func
-  }
+let addModelCallback: (model: ModelType) => void;
+export function regsiterAddModelCallback(func: (model: ModelType) => void) {
+    addModelCallback = func;
+}
 
-  export function addModel(model: ModelType) {
-    addModelCallback(model)
-  }
+export function addModel(model: ModelType) {
+    addModelCallback(model);
+}
 
-  export enum FlowElementType {
+export enum FlowElementType {
     Model,
     Input,
     Output,
-    Tokenizer
-  }
+    Tokenizer,
+}
 
-  export enum FlowNodeType {
+export enum FlowNodeType {
     Model,
-    Tokenizer
-  }
+    Tokenizer,
+}

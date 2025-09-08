@@ -5,7 +5,7 @@ import type { ModelType } from "./types";
 
 export class TritonApiInstance {
     url: string;
-    ready: Promise<void>
+    ready: Promise<void>;
 
     models!: ModelType[];
 
@@ -13,26 +13,27 @@ export class TritonApiInstance {
         this.url = url;
 
         this.ready = this.fetchModels().then(async (models) => {
-            this.models = await Promise.all(models.map(async model => {
-                return { ...model, ...(await this.modelInfo(model.name)) }
-            }))
+            this.models = await Promise.all(
+                models.map(async (model) => {
+                    return { ...model, ...(await this.modelInfo(model.name)) };
+                }),
+            );
         });
-
     }
 
     async fetchModels() {
-        return schemaFetch([`${this.url}/v2/repository/index`, { method: "POST" }], modelIndexResponse)
+        return schemaFetch(
+            [`${this.url}/v2/repository/index`, { method: "POST" }],
+            modelIndexResponse,
+        );
     }
 
     getModelByName(name: string) {
-        return this.models.find((model)=>model.name === name)
+        return this.models.find((model) => model.name === name);
     }
 
-    async filterModels(
-        inputType: string,
-        outputType: string
-    ) {
-        await this.ready
+    async filterModels(inputType: string, outputType: string) {
+        await this.ready;
         let filtered = this.models.filter(async (model) => {
             let containsCorrectInput =
                 model.input.filter((input) => {
@@ -45,21 +46,26 @@ export class TritonApiInstance {
                 }).length > 0;
 
             return (
-                containsCorrectInput && containsCorrectOutput && model.state == "READY"
+                containsCorrectInput &&
+                containsCorrectOutput &&
+                model.state == "READY"
             );
         });
 
-        return filtered
+        return filtered;
     }
 
     async modelInfo(model_name: string) {
-        return schemaFetch([`${this.url}/v2/models/${model_name}/config`], modelInfoResponse)
+        return schemaFetch(
+            [`${this.url}/v2/models/${model_name}/config`],
+            modelInfoResponse,
+        );
     }
 
     async infer(model_name: string, inputs: any, outputs: any) {
-        console.log(inputs)
-        console.log(outputs)
-        console.log(model_name)
+        console.log(inputs);
+        console.log(outputs);
+        console.log(model_name);
         return fetch(`${this.url}/v2/models/${model_name}/infer`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
