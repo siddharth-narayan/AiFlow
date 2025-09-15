@@ -3,6 +3,7 @@
         Background,
         Controls,
         MiniMap,
+        Panel,
         SvelteFlow,
     } from "@xyflow/svelte";
     import ModelNode from "./model-node.svelte";
@@ -11,7 +12,13 @@
     import InputNode from "./input-node.svelte";
     import AddPanel from "./add-panel.svelte";
     import OutputNode from "./output-node.svelte";
-    let { nodes = $bindable(), edges = $bindable() } = $props();
+    import Button from "$lib/components/ui/button/button.svelte";
+    import { Play } from "lucide-svelte";
+    let { nodes = $bindable(), edges = $bindable(), callback } = $props();
+
+    function start() {
+        console.log("HAHE")
+    }
 </script>
 
 <SvelteFlow
@@ -28,4 +35,7 @@
     <!-- <MiniMap /> -->
     <Controls />
     <AddPanel />
+    <Panel position="bottom-right">
+        <Button onclick={start} variant="constructive">Start <Play /></Button>
+    </Panel>
 </SvelteFlow>

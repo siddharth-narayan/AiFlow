@@ -46,14 +46,3 @@ export function addModel(model: ModelType) {
     addModelCallback(model);
 }
 
-export enum FlowElementType {
-    Model,
-    Input,
-    Output,
-    Tokenizer,
-}
-
-export enum FlowNodeType {
-    Model,
-    Tokenizer,
-}
