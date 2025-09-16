@@ -26,7 +26,7 @@
   function addModel(model: ModelType) {
     nodes.push({
       id: v4(),
-      type: "model",
+      type: "modelNode",
       position: { x: 50, y: 50 },
       data: model,
     });
@@ -91,7 +91,7 @@
 	<Pane defaultSize={50}>Pane 2</Pane> -->
     </PaneGroup>
   </Pane>
-  <PaneResizer class="flex bg-accent h-0.5 items-center justify-center"
+  <PaneResizer class="flex bg-accent h-0.5 justify-center"
     ><GripHorizontal></GripHorizontal></PaneResizer
   >
   <Pane>
