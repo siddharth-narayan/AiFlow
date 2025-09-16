@@ -2,8 +2,8 @@
     import {
         Background,
         Controls,
-        MiniMap,
         SvelteFlow,
+        type Connection,
     } from "@xyflow/svelte";
     import ModelNode from "./model-node.svelte";
     import { mode } from "mode-watcher";
@@ -11,17 +11,71 @@
     import InputNode from "./input-node.svelte";
     import AddPanel from "./add-panel.svelte";
     import OutputNode from "./output-node.svelte";
-    let { nodes = $bindable(), edges = $bindable() } = $props();
+    import type { ModelType } from "$lib/api/triton/types";
+
+    type NodesType = {
+        id: string;
+        type: string;
+        position: {
+            x: number;
+            y: number;
+        };
+        data: any;
+    }[];
+
+    let { nodes = $bindable(), edges = $bindable() }: {nodes: NodesType, edges: any}= $props();
+
+    function validateConnection(connection: Connection) {
+        let finalSourceType = ""
+        let finalTargetType = ""
+        
+        console.log("Validating connection")
+        let source = nodes.find((node) => {
+            return node.id == connection.source
+        })
+
+        let target = nodes.find((node) => {
+            return node.id == connection.target
+        })
+        
+        if (!source || !target) {
+            return false;
+        }
+
+        if (source.type == "inputNode") {
+            if (!connection.sourceHandle) {
+                return
+            }
+
+            finalSourceType = "";
+        }
+
+        console.log(source)
+        console.log(source.data)
+        let sourceInput = (source.data as ModelType).input.find((input)=>{
+            input.name == connection.sourceHandle
+        })
+
+        console.log(target.data)
+        let targetInput = (target.data as ModelType).input.find((input)=>{
+            input.name == connection.sourceHandle
+        })
+
+        console.log(sourceInput)
+
+        connection
+    }
 </script>
 
 <SvelteFlow
     nodeTypes={{
-        model: ModelNode,
+        modelNode: ModelNode,
         inputNode: InputNode,
         outputNode: OutputNode,
     }}
     bind:nodes
     bind:edges
+    onbeforeconnect={validateConnection}
     colorMode={mode.current}
 >
     <Background />
