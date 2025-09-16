@@ -3,8 +3,6 @@
     import "./nodes.css"
     import { Handle, Position, useUpdateNodeInternals, type NodeProps } from "@xyflow/svelte";
 
-    let { data }: NodeProps = $props();
-
     const updateNodeInternals = useUpdateNodeInternals()
     inputs.subscribe(()=> {
       updateNodeInternals()

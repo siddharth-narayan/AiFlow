@@ -13,10 +13,16 @@
     import AddPanel from "./add-panel.svelte";
     import OutputNode from "./output-node.svelte";
     import Button from "$lib/components/ui/button/button.svelte";
-    import { Play } from "lucide-svelte";
+    import { Loader2Icon, Play } from "lucide-svelte";
+    import { LoaderCircle } from "@lucide/svelte";
     let { nodes = $bindable(), edges = $bindable(), callback } = $props();
 
+
+    let running = $state(false);
+
     function start() {
+        running = true
+        setTimeout(()=>{running = false}, 1000)
         console.log("HAHE")
     }
 </script>
@@ -36,6 +42,11 @@
     <Controls />
     <AddPanel />
     <Panel position="bottom-right">
-        <Button onclick={start} variant="constructive">Start <Play /></Button>
+        {#if !running}
+            <Button onclick={start} variant="constructive">Start <Play /></Button>
+        {:else}
+            
+            <Button variant="secondary" disabled>Running <LoaderCircle class="animate-spin" /></Button>
+        {/if}
     </Panel>
 </SvelteFlow>
