@@ -2,6 +2,8 @@
     import {
         Background,
         Controls,
+        MiniMap,
+        Panel,
         SvelteFlow,
         type Connection,
     } from "@xyflow/svelte";
@@ -12,7 +14,8 @@
     import AddPanel from "./add-panel.svelte";
     import OutputNode from "./output-node.svelte";
     import type { ModelType } from "$lib/api/triton/types";
-
+    import { Play } from "lucide-svelte";
+    import Button from "$lib/components/ui/button/button.svelte";
     type NodesType = {
         id: string;
         type: string;
@@ -64,7 +67,13 @@
         console.log(sourceInput)
 
         connection
+    
     }
+
+    function start() {
+        console.log("HAHE")
+    }
+
 </script>
 
 <SvelteFlow
@@ -82,4 +91,7 @@
     <!-- <MiniMap /> -->
     <Controls />
     <AddPanel />
+    <Panel position="bottom-right">
+        <Button onclick={start} variant="constructive">Start <Play /></Button>
+    </Panel>
 </SvelteFlow>
