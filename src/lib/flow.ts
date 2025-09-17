@@ -5,10 +5,12 @@ import type {
     ModelOutputType,
     ModelType,
 } from "./api/triton/types";
+import type { NodeTypes } from "@xyflow/svelte";
 
 export let inputs: Writable<{ name: string; data_type: DataType }[]> = writable(
     [],
 );
+
 export let outputs: Writable<{ name: string; data_type: DataType }[]> =
     writable([]);
 
@@ -21,23 +23,23 @@ export function addModel(model: ModelType) {
     addModelCallback(model);
 }
 
-export type ModelNodeType = {
+
+export type AnyNodeType = ModelNodeType | InputNodeType | OutputNodeType
+
+export type ModelNodeType = NodeTypes & {
     id: string,
     type: "modelNode",
-    position: { x: number, y: number},
     data: ModelType
 }
 
-export type InputNodeType = {
+export type InputNodeType = NodeTypes & {
     id: string,
-    type: "modelNode",
-    position: { x: number, y: number},
-    data: ModelType
+    type: "inputNode",
+    data: ModelInputType[]
 }
 
-export type OutputNodeType = {
+export type OutputNodeType = NodeTypes & {
     id: string,
     type: "outputNode",
-    position: { x: number, y: number},
-    data: ModelType
+    data: ModelOutputType[]
 }

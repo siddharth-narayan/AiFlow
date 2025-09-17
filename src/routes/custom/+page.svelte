@@ -3,7 +3,7 @@
   import { triton } from "$lib/api/triton/api";
   import type { ModelType } from "$lib/api/triton/types";
   import Flow from "$lib/components/large/flow/flow.svelte";
-  import { inputs, regsiterAddModelCallback } from "$lib/flow";
+  import { inputs, regsiterAddModelCallback, type AnyNodeType } from "$lib/flow";
   import { GripVertical } from "lucide-svelte/icons";
   import { PaneGroup, Pane, PaneResizer } from "paneforge";
   import AiMediaInput from "$lib/components/large/ai-media-input.svelte";
@@ -16,12 +16,7 @@
   async function submit() {}
 
   // Svelte Flow stuff
-  let nodes: {
-    id: string;
-    type: string;
-    position: { x: number; y: number };
-    data: any;
-  }[] = $state([]);
+  let nodes: AnyNodeType[] = $state([]);
 
   function addModel(model: ModelType) {
     nodes.push({
@@ -45,17 +40,13 @@
         id: "input",
         type: "inputNode",
         position: { x: 200, y: 200 },
-        data: {
-          inputs: [],
-        },
+        data: [],
       },
       {
         id: "output",
         type: "outputNode",
         position: { x: 500, y: 200 },
-        data: {
-          inputs: [],
-        },
+        data: []
       },
     );
   });
