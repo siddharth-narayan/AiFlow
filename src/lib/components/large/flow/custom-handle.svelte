@@ -3,18 +3,16 @@
         ModelInputType,
         ModelOutputType,
     } from "$lib/api/triton/types";
-    import { Handle, Position } from "@xyflow/svelte";
-    import { v4 as uuid } from "uuid";
+    import { Handle, Position, type HandleProps } from "@xyflow/svelte";
 
     type Props = {
         handleIO: ModelInputType | ModelOutputType;
         handleIndex: number;
         handleTotal: number;
         position: Position;
-        type?: "source" | "target" // Or both if that exists? 
     };
 
-    let { handleIO, handleIndex, handleTotal, position, type }: Props = $props();
+    let { handleIO, handleIndex, handleTotal, position, ...rest }: Props & HandleProps = $props();
 
     // Returns a css string percentage to style the correct position on a handle
     export function customHandlePosition(index: number, count: number) {
@@ -36,10 +34,10 @@
 
 <Handle
     class="w-2"
-    id={uuid()}
-    type="target"
+    id={handleIO.name}
     {position}
     style={customHandlePosition(handleIndex, handleTotal)}
+    {...rest}
 />
 
 {#if position == Position.Left}
@@ -61,7 +59,6 @@
     >
         
         <p class="font-bold">{handleIO.name}</p>
-        <p>{handleIO.name}</p>
         <p class="font-bold text-sm text-muted-foreground">
             {handleIO.data_type}
         </p>

@@ -16,6 +16,6 @@
 
   <!-- Ignore the type error for a bit, but eventually make $inputs from ModelType -->
   {#each $inputs as input, index}
-    <CustomHandle handleIO={input} handleIndex={index} handleTotal={$inputs.length} position={Position.Right}/>
+    <CustomHandle handleIO={input} type={"source"} handleIndex={index} handleTotal={$inputs.length} position={Position.Right}/>
   {/each}
 </div>

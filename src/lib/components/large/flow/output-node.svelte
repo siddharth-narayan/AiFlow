@@ -23,6 +23,7 @@
     {#each $outputs as output, index}
         <CustomHandle
             handleIO={output}
+            type={"target"}
             handleIndex={index}
             handleTotal={$outputs.length}
             position={Position.Left}
