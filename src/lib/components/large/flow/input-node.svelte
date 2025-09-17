@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { customHandlePosition, inputs } from "$lib/flow";
-    import "./nodes.css"
+    import { inputs } from "$lib/flow";
     import { Handle, Position, useUpdateNodeInternals, type NodeProps } from "@xyflow/svelte";
+    import CustomHandle from "./custom-handle.svelte";
 
     const updateNodeInternals = useUpdateNodeInternals()
     inputs.subscribe(()=> {
@@ -12,20 +12,8 @@
 <div class="p-4 rounded bg-secondary">
   <p class="text-lg font-bold">Input(s)</p>
 
+  <!-- Ignore the type error for a bit, but eventually make $inputs from ModelType -->
   {#each $inputs as input, index}
-    <Handle
-      class="w-2"
-      id={input.name} 
-      type="source"
-      position={Position.Right}
-      style={customHandlePosition(index, $inputs.length)}
-    />
-    <div
-      class="right-edge-label"
-      style={customHandlePosition(index, $inputs.length)}
-    >
-      <p class="font-bold">{input.name}</p>
-      <p class="text-sm font-bold text-muted-foreground">{input.data_type}</p>
-    </div>
+    <CustomHandle handleIO={input} handleIndex={index} handleTotal={$inputs.length} position={Position.Right}/>
   {/each}
 </div>
