@@ -3,6 +3,8 @@
     import { Handle, Position, useUpdateNodeInternals, type NodeProps } from "@xyflow/svelte";
     import CustomHandle from "./custom-handle.svelte";
 
+    let _props: NodeProps = $props()
+
     const updateNodeInternals = useUpdateNodeInternals()
     inputs.subscribe(()=> {
       updateNodeInternals()
