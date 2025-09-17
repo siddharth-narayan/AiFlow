@@ -41,3 +41,20 @@ export type OutputNodeType = {
     position: { x: number, y: number},
     data: ModelType
 }
+
+    // Returns a css string percentage to style the correct position on a handle
+    export function customHandlePosition(index: number, count: number) {
+        let globalPosition = 50; // The placement of the center of all the handles
+        let handleHeight = 70; // Total height (percentage) of all the handles
+
+        let distance = handleHeight / count;
+
+        // Minimum 10% distance
+        distance = distance < 30 ? 30 : distance;
+
+        let firstHandlePosition = globalPosition - ((count - 1) * distance) / 2;
+        // Position of the specific handle
+        let position = firstHandlePosition + index * distance;
+
+        return `top:${position}%;`;
+    }

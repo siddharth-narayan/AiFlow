@@ -15,23 +15,6 @@
     };
 
     let { handleIO, handleIndex, handleTotal, position, type }: Props = $props();
-
-    // Returns a css string percentage to style the correct position on a handle
-    export function customHandlePosition(index: number, count: number) {
-        let globalPosition = 50; // The placement of the center of all the handles
-        let handleHeight = 70; // Total height (percentage) of all the handles
-
-        let distance = handleHeight / count;
-
-        // Minimum 10% distance
-        distance = distance < 30 ? 30 : distance;
-
-        let firstHandlePosition = globalPosition - ((count - 1) * distance) / 2;
-        // Position of the specific handle
-        let position = firstHandlePosition + index * distance;
-
-        return `top:${position}%;`;
-    }
 </script>
 
 <Handle
@@ -41,7 +24,14 @@
     {position}
     style={customHandlePosition(handleIndex, handleTotal)}
 />
-
+    <div
+        class="left-edge-label"
+        style={customHandlePosition(handleIndex, handleTotal)}
+    >
+        <p class="font-bold">{handleIO.name}</p>
+        <p class="font-bold text-sm text-muted-foreground">
+            {handleIO.data_type}
+        </p>
 {#if position == Position.Left}
     <div
         class="left-edge-label"
