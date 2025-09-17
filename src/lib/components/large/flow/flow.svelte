@@ -28,50 +28,57 @@
         let finalSourceType = "";
         let finalTargetType = "";
 
-        console.log("Validating connection");
         let source: AnyNodeType | undefined = nodes.find((node) => {
             return node.id == connection.source;
         });
 
-        let target = nodes.find((node) => {
+        let target: AnyNodeType | undefined = nodes.find((node) => {
             return node.id == connection.target;
         });
 
         if (!source || !target) {
             return false;
         }
-
+        
         // Special cases for beginning and ending nodes, because they don't have a (source/target).data
-        if (source.type == "inputNode") {
+        // source.type can never be "outputNode", but it's included to stop type errors
+        if (source.type == "inputNode" || source.type == "outputNode") {
+            return false;
             if (!connection.sourceHandle) {
                 return connection;
             }
 
             finalSourceType = "";
         }
-
-        if (source.type == "outputNode") {
+        if (target.type == "outputNode" || target.type == "inputNode") {
+            return false;
             if (!connection.targetHandle) {
                 return connection;
             }
 
             finalSourceType = "";
         }
-
-        console.log(source);
-        console.log(source.data);
-        let sourceInput = (source.data as ModelType).input.find((input) => {
-            input.name == connection.sourceHandle;
+        let sourceInput = source.data.output.find((output) => {
+            console.log(`"${connection.sourceHandle}"`)
+            return output.name == connection.sourceHandle;
         });
 
-        console.log(target.data);
-        let targetInput = (target.data as ModelType).input.find((input) => {
-            input.name == connection.sourceHandle;
+        let targetInput = target.data.input.find((input) => {
+            return input.name == connection.targetHandle;
         });
 
-        console.log(sourceInput);
+        if (!sourceInput || !targetInput) {
+            return false
+        }
 
-        return connection;
+        finalSourceType = sourceInput.data_type
+        finalTargetType = targetInput.data_type;
+
+        console.log(finalSourceType)
+        console.log(finalTargetType)
+        // Should add validation here for dimensionality as well
+
+        return finalSourceType === finalTargetType ? connection : false;
     }
 
     let running = $state(false);
