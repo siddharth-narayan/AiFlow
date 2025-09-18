@@ -17,17 +17,70 @@
     import type { ModelType } from "$lib/api/triton/types";
     import { Play } from "lucide-svelte";
     import Button from "$lib/components/ui/button/button.svelte";
-    import type { AnyNodeType } from "$lib/flow";
+    import type { AnyNodeType} from "$lib/flow";
+    import { inputs, outputs } from "$lib/flow"
 
     let {
         nodes = $bindable(),
         edges = $bindable(),
     }: { nodes: AnyNodeType[]; edges: any } = $props();
 
-    function validateConnection(connection: Connection) {
-        let finalSourceType = "";
-        let finalTargetType = "";
+    function getFinalSourceType(node: AnyNodeType, connection: Connection) {
+        let sourceType = undefined;
 
+        if (node.type == "inputNode") {
+            console.log("a")
+            if (!connection.sourceHandle) {
+                console.log("b")
+                return;
+            }
+
+            $inputs.forEach((input) => {
+                console.log(`${input.name} == ${connection.sourceHandle}`)
+                if (input.name == connection.sourceHandle) {
+                    sourceType = input.data_type;
+                }
+            });
+            console.log("c")
+            return sourceType;
+        } else if (node.type == "modelNode"){
+            let sourceInput = node.data.output.find((output) => {
+                console.log(output)
+                return output.name == connection.sourceHandle;
+            });
+            console.log("d")
+            return sourceInput?.data_type
+        }
+    }
+
+    function getFinalTargetType(node: AnyNodeType, connection: Connection) {
+        let targetType = undefined;
+
+        if (node.type == "outputNode") {
+            if (!connection.targetHandle) {
+                return;
+            }
+
+            $outputs.forEach((output) => {
+                console.log(`${output.name} == ${connection.targetHandle}`)
+                if (output.name == connection.targetHandle) {
+                    targetType = output.data_type;
+                }
+            });
+
+            return targetType;
+        } else if (node.type == "modelNode"){
+            console.log(node)
+            let targetInput = node.data.input.find((input) => {
+                return input.name == connection.targetHandle;
+            });
+
+            return targetInput?.data_type
+        }
+    }
+
+    // This function really needs to be refactored
+    function validateConnection(connection: Connection) {
         let source: AnyNodeType | undefined = nodes.find((node) => {
             return node.id == connection.source;
         });
@@ -39,45 +92,12 @@
         if (!source || !target) {
             return false;
         }
-        
-        // Special cases for beginning and ending nodes, because they don't have a (source/target).data
-        // source.type can never be "outputNode", but it's included to stop type errors
-        if (source.type == "inputNode" || source.type == "outputNode") {
-            return false;
-            if (!connection.sourceHandle) {
-                return connection;
-            }
 
-            finalSourceType = "";
-        }
-        if (target.type == "outputNode" || target.type == "inputNode") {
-            return false;
-            if (!connection.targetHandle) {
-                return connection;
-            }
-
-            finalSourceType = "";
-        }
-        let sourceInput = source.data.output.find((output) => {
-            console.log(`"${connection.sourceHandle}"`)
-            return output.name == connection.sourceHandle;
-        });
-
-        let targetInput = target.data.input.find((input) => {
-            return input.name == connection.targetHandle;
-        });
-
-        if (!sourceInput || !targetInput) {
-            return false
-        }
-
-        finalSourceType = sourceInput.data_type
-        finalTargetType = targetInput.data_type;
+        let finalSourceType = getFinalSourceType(source, connection);
+        let finalTargetType = getFinalTargetType(target, connection);
 
         console.log(finalSourceType)
         console.log(finalTargetType)
-        // Should add validation here for dimensionality as well
-
         return finalSourceType === finalTargetType ? connection : false;
     }
 

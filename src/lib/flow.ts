@@ -35,11 +35,11 @@ export type ModelNodeType = NodeTypes & {
 export type InputNodeType = NodeTypes & {
     id: string,
     type: "inputNode",
-    data: ModelInputType[]
+    // data: ModelInputType[]
 }
 
 export type OutputNodeType = NodeTypes & {
     id: string,
     type: "outputNode",
-    data: ModelOutputType[]
+    // data: ModelOutputType[]
 }
