@@ -2,7 +2,6 @@
     import {
         Background,
         Controls,
-        MiniMap,
         Panel,
         SvelteFlow,
         type Connection,
@@ -14,11 +13,10 @@
     import AddPanel from "./add-panel.svelte";
     import OutputNode from "./output-node.svelte";
     import { LoaderCircle } from "@lucide/svelte";
-    import type { ModelType } from "$lib/api/triton/types";
     import { Play } from "lucide-svelte";
     import Button from "$lib/components/ui/button/button.svelte";
     import type { AnyNodeType} from "$lib/flow";
-    import { inputs, outputs } from "$lib/flow"
+    import { getNodeFromId, inputs, outputs } from "$lib/flow"
 
     let {
         nodes = $bindable(),
@@ -81,13 +79,8 @@
 
     // This function really needs to be refactored
     function validateConnection(connection: Connection) {
-        let source: AnyNodeType | undefined = nodes.find((node) => {
-            return node.id == connection.source;
-        });
-
-        let target: AnyNodeType | undefined = nodes.find((node) => {
-            return node.id == connection.target;
-        });
+        let source = getNodeFromId(nodes, connection.source)
+        let target = getNodeFromId(nodes, connection.target)
 
         if (!source || !target) {
             return false;
@@ -101,14 +94,29 @@
         return finalSourceType === finalTargetType ? connection : false;
     }
 
+    async function nodeProcessData(node: AnyNodeType) {
+        while(running) {
+            
+            await new Promise(f => setTimeout(f, 500));
+        }
+
+        
+    }
+
+
     let running = $state(false);
 
     function start() {
         running = true;
+        // Put initialization from $inputs over here
+
+        nodes.forEach(
+            nodeProcessData
+        )
+
         setTimeout(() => {
             running = false;
         }, 10000);
-        console.log("HAHE");
     }
 </script>
 
@@ -127,7 +135,7 @@
     <Background />
     <!-- <MiniMap /> -->
     <Controls />
-    <AddPanel />
+    <AddPanel disabled={running}/>
     <Panel position="bottom-right">
         {#if !running}
             <Button onclick={start} variant="constructive"

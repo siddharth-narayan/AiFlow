@@ -8,6 +8,8 @@
     import type { DataType } from "$lib/api/triton/types";
     import { inputs, outputs, addModel } from "$lib/flow";
 
+    let { disabled } = $props()
+
     function addInput(type: DataType) {
         let temp = $inputs
         temp.push({
@@ -33,7 +35,7 @@
     <DropdownMenu.Root>
         <DropdownMenu.Trigger>
             {#snippet child({ props })}
-                <Button {...props} variant="outline"><Plus />Add</Button>
+                <Button {...props} variant="outline" {disabled}><Plus />Add</Button>
             {/snippet}
         </DropdownMenu.Trigger>
         <DropdownMenu.Content class="w-56" align="start">

@@ -5,7 +5,7 @@ import type {
     ModelOutputType,
     ModelType,
 } from "./api/triton/types";
-import type { NodeTypes } from "@xyflow/svelte";
+import type { Edge, EdgeTypes, Node, NodeTypes } from "@xyflow/svelte";
 
 export let inputs: Writable<{ name: string; data_type: DataType }[]> = writable(
     [],
@@ -23,23 +23,25 @@ export function addModel(model: ModelType) {
     addModelCallback(model);
 }
 
+export function getNodeFromId(nodes: AnyNodeType[], id: string) {
+    return nodes.find((node) => {
+        return node.id == id;
+    });
+}
 
 export type AnyNodeType = ModelNodeType | InputNodeType | OutputNodeType
 
-export type ModelNodeType = NodeTypes & {
-    id: string,
+export type ModelNodeType = Node & {
     type: "modelNode",
     data: ModelType
 }
 
-export type InputNodeType = NodeTypes & {
-    id: string,
+export type InputNodeType = Node & {
     type: "inputNode",
     // data: ModelInputType[]
 }
 
-export type OutputNodeType = NodeTypes & {
-    id: string,
+export type OutputNodeType = Node & {
     type: "outputNode",
     // data: ModelOutputType[]
 }
